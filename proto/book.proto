@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "./pb";
+
+message Book {
+  int64 Id = 1;
+  string Title = 2;
+  string Description = 3;
+  string Author = 4;
+}
+
+message BookResponse { Book book = 1; }
+
+message BookResponses {
+  int64 limit = 1;
+  int64 page = 2;
+  int64 totalItems = 3;
+  int64 totalPages = 4;
+  repeated Book items = 5;
+}
+
+message CreateBookRequest {
+  string Title = 1;
+  string Description = 2;
+  string Author = 3;
+}
+
+message UpdateBookRequest {
+  int64 Id = 1;
+  string Title = 2;
+  string Description = 3;
+  string Author = 4;
+}
+
+service BookService {
+  rpc CreateBook(CreateBookRequest) returns (BookResponse) {}
+  rpc GetBook(BookRequest) returns (BookResponse) {}
+  rpc GetBooks(GetBooksRequest) returns (BookResponses) {}
+  rpc UpdateBook(UpdateBookRequest) returns (BookResponse) {}
+  rpc DeleteBook(BookRequest) returns (DeleteBookResponse) {}
+}
+
+message GetBooksRequest {
+  optional int64 page = 1;
+  optional int64 limit = 2;
+}
+
+message BookRequest { int64 Id = 1; }
+
+message DeleteBookResponse { bool success = 1; }
+
